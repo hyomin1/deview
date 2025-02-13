@@ -11,7 +11,7 @@ export default async function Header() {
       <div className='flex gap-4 items-center'>
         {user ? (
           <>
-            <span className='text-sm text-gray-600'>{user.email}</span>
+            <span className='text-sm text-gray-600'>{user.name}</span>
             <SignButton showLoginButton={false} />
           </>
         ) : (

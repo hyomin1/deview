@@ -17,6 +17,10 @@ export const providerMap = providers.map((provider) => {
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers,
+  session: {
+    strategy: 'jwt',
+    maxAge: 7 * 24 * 60 * 60,
+  },
   callbacks: {
     async signIn({ user }) {
       if (!user.email) {
