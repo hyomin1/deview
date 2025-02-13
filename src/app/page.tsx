@@ -1,13 +1,8 @@
-import clientPromise from '@/utils/mongodb';
-
-async function getDb() {
-  const client = await clientPromise;
-  const db = client.db('sample_mflix');
-  return db.collection('comments').find({}).toArray();
-}
-
 export default async function HomePage() {
-  const examples = await getDb();
-  console.log('e', examples);
-  return <p>hi</p>;
+  return (
+    <div>
+      <h1>Welcome back!</h1>
+      {/* 로그인된 사용자를 위한 콘텐츠 */}
+    </div>
+  );
 }
