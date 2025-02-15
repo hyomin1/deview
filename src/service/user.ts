@@ -6,7 +6,7 @@ export async function createOrUpdateUser(user: AuthUser) {
     const client = await clientPromise;
     const db = client.db(process.env.MONGODB_DB_NAME);
 
-    await db.collection('users').findOneAndUpdate(
+    const res = await db.collection('users').findOneAndUpdate(
       { email: user.email },
       {
         $set: {
@@ -25,7 +25,10 @@ export async function createOrUpdateUser(user: AuthUser) {
         upsert: true, // 문서가 없으면 새로 생성하고, 있으면 업데이트
       }
     );
+    return res;
   } catch (error) {
     console.error('사용자 정보 저장 중 오류:', error);
   }
 }
+
+export async function getUser() {}

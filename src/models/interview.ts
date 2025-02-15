@@ -1,4 +1,7 @@
+import { ObjectId } from 'mongodb';
+
 export type Interview = {
+  _id: string;
   keyword: string;
   description: string;
   level: number;
@@ -10,4 +13,9 @@ export type Interview = {
   practicalUses: string[];
   commonMistakes: string[];
   relatedLinks: string[];
+  createdAt: Date;
+};
+
+export type MongoInterview = Omit<Interview, '_id'> & {
+  _id: ObjectId;
 };

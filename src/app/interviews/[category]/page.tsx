@@ -1,51 +1,61 @@
-import React from 'react';
 import Link from 'next/link';
 import { ChevronLeft, BookOpen } from 'lucide-react';
 import InterviewGeneratorInput from '@/components/InterviewGeneratorInput';
 import { getInterviewsByCategory } from '@/service/interview';
 import InterviewList from '@/components/InterviewList';
+import { checkIsAdmin } from '@/utils/auth';
 
 type Props = {
   params: Promise<{ category: string }>;
 };
 
-// 해당 keyword(frontend,backend)로 db에서 정보 받아옴
-
 export default async function InterviewCategoryPage({ params }: Props) {
   const category = (await params).category;
   const interviews = await getInterviewsByCategory(category);
-
+  const isAdmin = await checkIsAdmin();
   return (
-    <div className='max-w-4xl mx-auto px-4 py-8'>
-      {/* 뒤로가기 및 헤더 */}
-      <header className='mb-10'>
-        <div className='flex items-center mb-4'>
+    <div className='min-h-screen'>
+      <div className='max-w-4xl mx-auto px-6 py-12'>
+        {/* 뒤로가기 */}
+        <nav className='mb-12'>
           <Link
             href='/interviews'
-            className='flex items-center text-gray-600 hover:text-gray-800 transition-colors'
+            className='inline-flex items-center text-gray-600 hover:text-blue-600 transition-colors'
           >
-            <ChevronLeft className='mr-2' />
-            <span>카테고리로 돌아가기</span>
+            <ChevronLeft className='mr-1 h-5 w-5' />
+            <span className='text-sm font-medium'>카테고리로 돌아가기</span>
           </Link>
-        </div>
-        <div className='flex items-center'>
-          <BookOpen className='w-10 h-10 mr-4 text-blue-600' />
-          <div>
+        </nav>
+
+        {/* 헤더 섹션 */}
+        <header className='mb-12'>
+          <div className='flex items-center gap-5 mb-8'>
+            <div className='flex-shrink-0'>
+              <BookOpen className='h-12 w-12 text-blue-600' strokeWidth={1.5} />
+            </div>
             <div>
-              <h1 className='text-3xl font-bold text-gray-800'>
+              <h1 className='text-4xl font-bold text-gray-900 mb-2'>
                 {category} 면접 질문
               </h1>
-              <p className='text-gray-600'>
-                프론트엔드 개발자를 위한 심층 기술 면접 질문 모음
+              <p className='text-lg text-gray-600'>
+                {category} 개발자를 위한 심층 기술 면접 질문 모음
               </p>
             </div>
-            <InterviewGeneratorInput />
           </div>
-        </div>
-      </header>
 
-      {/* 질문 목록 */}
-      <InterviewList interviews={interviews} />
+          {/* 검색 입력 */}
+          {isAdmin && (
+            <div className='max-w-2xl'>
+              <InterviewGeneratorInput />
+            </div>
+          )}
+        </header>
+
+        {/* 질문 목록 */}
+        <section>
+          <InterviewList interviews={interviews} />
+        </section>
+      </div>
     </div>
   );
 }

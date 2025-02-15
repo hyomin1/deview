@@ -1,5 +1,6 @@
 import { auth } from '@/auth';
 import SignButton from './SignButton';
+import Image from 'next/image';
 
 export default async function Header() {
   const session = await auth();
@@ -11,7 +12,14 @@ export default async function Header() {
       <div className='flex gap-4 items-center'>
         {user ? (
           <>
-            <span className='text-sm text-gray-600'>{user.name}</span>
+            <Image
+              className='rounded-full'
+              src={user.image ?? ''}
+              alt='User Profile'
+              width={30}
+              height={30}
+            />
+            <p className='text-sm text-gray-600'>{user.name}</p>
             <SignButton showLoginButton={false} />
           </>
         ) : (
