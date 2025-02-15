@@ -23,9 +23,9 @@ export default async function RootLayout({
   const user = session?.user;
   return (
     <html lang='en' className={openSans.className}>
-      <body>
+      <body className='overflow-hidden'>
         <AuthContext>
-          <div className='flex min-h-screen overflow-hidden'>
+          <div className='flex h-screen'>
             <div className='hidden md:block w-64 shrink-0'>
               <SideBar />
             </div>
@@ -34,7 +34,9 @@ export default async function RootLayout({
               {user ? (
                 <main className='flex-1 p-4 overflow-y-auto'>{children}</main>
               ) : (
-                <Welcome />
+                <div className='flex-1 overflow-y-auto'>
+                  <Welcome />
+                </div>
               )}
             </div>
           </div>
