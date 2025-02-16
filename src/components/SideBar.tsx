@@ -13,17 +13,18 @@ const menus = [
     title: '질문 모아보기',
     description: '직무별 기술 면접 질문을 확인해보세요',
   },
-  {
-    href: '/practice',
-    icon: <QuizIcon />,
-    title: '채팅 면접',
-    description: 'AI와 함께 면접 연습을 시작해보세요',
-  },
+
   {
     href: '/resume',
     icon: <FileEditIcon />,
     title: '자소서/이력서 첨삭',
     description: 'AI가 문서를 분석하고 개선점을 제안해드려요',
+  },
+  {
+    href: '/practice',
+    icon: <QuizIcon />,
+    title: '채팅 면접',
+    description: 'AI와 함께 면접 연습을 시작해보세요',
   },
   {
     href: '/history',
@@ -42,7 +43,7 @@ export default function SideBar() {
         <div className='px-6 py-8'>
           <Link
             href='/'
-            className='text-3xl font-bold text-blue-600 hover:text-blue-700 transition-colors'
+            className='text-3xl font-bold hover:text-gray-600 transition-colors'
           >
             Deview
           </Link>

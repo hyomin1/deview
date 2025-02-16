@@ -6,6 +6,7 @@ import Header from '@/components/Header';
 import AuthContext from '@/context/AuthContext';
 import { auth } from '@/auth';
 import Welcome from '@/components/Welcome';
+import SWRConfigContext from '@/context/SWRConfigContext';
 
 const openSans = Open_Sans({ subsets: ['latin'] });
 
@@ -32,7 +33,9 @@ export default async function RootLayout({
             <div className='flex-1 flex flex-col'>
               <Header />
               {user ? (
-                <main className='flex-1 p-4 overflow-y-auto'>{children}</main>
+                <main className='flex-1 p-4 overflow-y-auto'>
+                  <SWRConfigContext>{children}</SWRConfigContext>
+                </main>
               ) : (
                 <div className='flex-1 overflow-y-auto'>
                   <Welcome />

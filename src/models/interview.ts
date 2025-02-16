@@ -19,3 +19,11 @@ export type Interview = {
 export type MongoInterview = Omit<Interview, '_id'> & {
   _id: ObjectId;
 };
+
+export type SortOption = 'latest' | 'tag' | 'level';
+
+export type PaginatedResponse = {
+  interviews: Interview[];
+  totalPages: number;
+  currentPage: number;
+};

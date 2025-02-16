@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
-import MarkdownViewer from './MarkdownViewer';
+import MarkdownViewer from '../MarkdownViewer';
 
 type Props = {
   interview: Interview;
@@ -25,8 +25,14 @@ export default function InterviewDetail({ interview }: Props) {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const { question, answer, practicalUses, commonMistakes, relatedLinks } =
-    interview;
+  const {
+    _id: id,
+    question,
+    answer,
+    practicalUses,
+    commonMistakes,
+    relatedLinks,
+  } = interview;
 
   return (
     <div className='space-y-8'>
@@ -67,7 +73,7 @@ export default function InterviewDetail({ interview }: Props) {
           </div>
         </div>
         <div className='p-6 pt-4'>
-          <MarkdownViewer initialAnswer={answer} />
+          <MarkdownViewer id={id} initialAnswer={answer} />
         </div>
       </section>
 

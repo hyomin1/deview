@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import { ChevronLeft, BookOpen } from 'lucide-react';
-import InterviewGeneratorInput from '@/components/InterviewGeneratorInput';
-import { getInterviewsByCategory } from '@/service/interview';
-import InterviewList from '@/components/InterviewList';
+import InterviewGeneratorInput from '@/components/interview/InterviewGeneratorInput';
+import InterviewContainer from '@/components/interview/InterviewContainer';
 import { checkIsAdmin } from '@/utils/auth';
 
 type Props = {
@@ -11,7 +10,6 @@ type Props = {
 
 export default async function InterviewCategoryPage({ params }: Props) {
   const category = (await params).category;
-  const interviews = await getInterviewsByCategory(category);
   const isAdmin = await checkIsAdmin();
   return (
     <div className='min-h-screen'>
@@ -46,14 +44,14 @@ export default async function InterviewCategoryPage({ params }: Props) {
           {/* 검색 입력 */}
           {isAdmin && (
             <div className='max-w-2xl'>
-              <InterviewGeneratorInput />
+              <InterviewGeneratorInput category={category} />
             </div>
           )}
         </header>
 
         {/* 질문 목록 */}
         <section>
-          <InterviewList interviews={interviews} />
+          <InterviewContainer category={category} />
         </section>
       </div>
     </div>
