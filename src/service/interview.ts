@@ -1,4 +1,6 @@
-import { Interview, MongoInterview } from '@/models/interview';
+import { PAGE } from '@/app/constants/interview';
+import { Interview, MongoInterview, SortOption } from '@/models/interview';
+import { getSortOptions } from '@/utils/interview';
 import clientPromise from '@/utils/mongodb';
 import { ObjectId } from 'mongodb';
 
@@ -20,19 +22,37 @@ export async function createInterview(interview: CreateInterviewInput) {
   }
 }
 
-export async function getInterviewsByCategory(category: string) {
+export async function getInterviewsByCategory(
+  category: string,
+  sort: SortOption = 'latest',
+  page: number = 1,
+  pageSize: number = PAGE
+) {
   try {
     const client = await clientPromise;
     const db = client.db(process.env.MONGODB_DB_NAME);
     const collection = db.collection<Interview>('interviews');
 
-    const interviews = await collection.find({ category }).toArray();
+    const totalCount = await collection.countDocuments({ category });
+    const totalPages = Math.ceil(totalCount / pageSize);
 
-    // MongoDB 객체를 일반 객체로 변환
-    return interviews.map((interview) => ({
-      ...interview,
-      _id: interview._id.toString(),
-    }));
+    const skip = (page - 1) * pageSize;
+    const sortOption = getSortOptions(sort);
+
+    const interviews = await collection
+      .find({ category })
+      .sort(sortOption)
+      .skip(skip)
+      .limit(pageSize)
+      .toArray();
+    return {
+      interviews: interviews.map((interview) => ({
+        ...interview,
+        _id: interview._id.toString(),
+      })),
+      totalPages,
+      currentPage: page,
+    };
   } catch (error) {
     console.error('MongoDB Error:', error);
     throw new Error('데이터 조회 실패');
@@ -50,7 +70,10 @@ export async function getInterviewByKeywordAndCategory(
 
     const interview = await collection.findOne({
       category,
-      keyword: decodeURIComponent(keyword),
+      keyword: {
+        $regex: `^${decodeURIComponent(keyword)}$`,
+        $options: 'i',
+      },
     });
 
     if (!interview) {
@@ -80,6 +103,36 @@ export async function updateInterview(id: string, interview: MongoInterview) {
     if (result.matchedCount === 0) {
       throw new Error('해당 ID의 문서를 찾을 수 없습니다');
     }
+  } catch (error) {
+    console.error('MongoDB Error:', error);
+    throw new Error('데이터 조회 실패');
+  }
+}
+
+export async function updateAnswer(id: string, answer: string) {
+  try {
+    const client = await clientPromise;
+    const db = client.db(process.env.MONGODB_DB_NAME);
+    const collection = db.collection('interviews');
+    const result = await collection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { answer } }
+    );
+    if (result.matchedCount === 0) {
+      throw new Error('해당 ID의 문서를 찾을 수 없습니다');
+    }
+  } catch (error) {
+    console.error('MongoDB Error:', error);
+    throw new Error('데이터 조회 실패');
+  }
+}
+
+export async function deleteInterview(id: string) {
+  try {
+    const client = await clientPromise;
+    const db = client.db(process.env.MONGODB_DB_NAME);
+    const collection = db.collection('interviews');
+    await collection.deleteOne({ _id: new ObjectId(id) });
   } catch (error) {
     console.error('MongoDB Error:', error);
     throw new Error('데이터 조회 실패');

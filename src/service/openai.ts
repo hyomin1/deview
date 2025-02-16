@@ -19,7 +19,7 @@ export async function generateInterview(keyword: string) {
           {
             "keyword": "검색 키워드",
             "description": "주제에 알아 보자는 문장 형식(1문장) ex: 자바스크립트의 클로저 개념에 대해 알아봅니다.",
-            "level": 난이도(1: 초급, 2: 초중급, 3: 중급, 4: 중고급, 5: 고급),
+            "level": 난이도(1: 초급, 2: 중급, 3: 고급),
             "tag": "JavaScript", "TypeScript", "React", "NextJS", "CSS", "HTML"중 하나 선택,
             "category": "frontend", "backend"중 하나 선택,
             "title": "면접 질문 제목 (명확하고 구체적으로)",
