@@ -16,10 +16,11 @@ const customStyle = {
 };
 
 type Props = {
+  id: string;
   initialAnswer: string;
 };
 
-export default function MarkdownViewer({ initialAnswer }: Props) {
+export default function MarkdownViewer({ id, initialAnswer }: Props) {
   const [isEditing, setIsEditing] = useState(false);
   const [answer, setAnswer] = useState(initialAnswer);
   const [editContent, setEditContent] = useState(initialAnswer);
@@ -28,10 +29,21 @@ export default function MarkdownViewer({ initialAnswer }: Props) {
 
   const isAdmin = session?.user?.role === 'ADMIN';
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setAnswer(editContent);
     setIsEditing(false);
-    // TODO: 저장한 후 서버에 보내서 DB에 저장하기
+
+    try {
+      await fetch('/api/interview', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id, answer: editContent }),
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleCancel = () => {
