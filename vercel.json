@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/interview/*": {
+    "/api/interview/*": {
       "maxDuration": 50
     }
   }
