@@ -5,7 +5,6 @@ const openai = new OpenAI({
 });
 
 export async function generateInterview(keyword: string) {
-  // 키워드 생성 전 db에 해당 키워드 존재하면 요청 x
   try {
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
@@ -92,4 +91,67 @@ export async function generateInterview(keyword: string) {
     console.error('OpenAI API Error:', error);
     throw new Error('Failed to generate interview response');
   }
+}
+
+export default async function reviewDocument(
+  text: string,
+  instruction: string
+) {
+  const completion = await openai.chat.completions.create({
+    model: 'gpt-4o-mini',
+    messages: [
+      {
+        role: 'system',
+        content: `당신은 대한민국의 채용 시장을 완벽히 이해하는 자기소개서 전문가입니다.
+      
+      특징:
+      - 각 기업의 인재상과 직무 특성을 정확히 파악
+      - 지원자의 경험을 가장 효과적인 방식으로 표현
+      - AI 답변 같지 않은 자연스러운 문체 구사
+      - 현실적이고 구체적인 경험 위주로 작성
+      
+      다음과 같은 요청을 완벽히 수행할 수 있습니다:
+      1. 자기소개서 작성/수정
+         - 글자 수 제한에 맞춘 작성
+         - 특정 역량/경험 중심 서술
+         - 직무/기업별 맞춤 작성
+         - 기존 내용 보완/발전
+      
+      2. 면접 대비 포인트
+         - 자소서 기반 예상 질문
+         - 답변 시 주의사항
+         - 더 어필할 수 있는 포인트
+      
+      작성 시 반드시 포함할 요소:
+      - 정량적 성과 (수치, 등급, 순위 등)
+      - 구체적인 경험과 에피소드
+      - 역량과 성과의 인과관계
+      - 지원동기와 포부의 진정성
+      - 해당 직무만의 차별화된 키워드
+      
+      피해야 할 내용:
+      - 추상적인 표현
+      - 검증 불가능한 주장
+      - 과도하게 꾸민 내용
+      - 진부한 표현
+      
+      사용자의 요청에 따라 첨삭, 작성, 분석 등 최적의 방식으로 답변하되, 
+      항상 실전에서 합격할 수 있는 퀄리티를 유지합니다.`,
+      },
+      {
+        role: 'user',
+        content: `${instruction}\n\n${text}`,
+      },
+    ],
+    temperature: 0.7,
+    max_tokens: 2000,
+    frequency_penalty: 0.5,
+    presence_penalty: 0.5,
+  });
+
+  const content = completion.choices[0].message.content;
+  if (!content) {
+    throw new Error('No content in response');
+  }
+  return content;
 }
