@@ -17,8 +17,8 @@ const menus = [
   {
     href: '/resume',
     icon: <FileEditIcon />,
-    title: '자소서/이력서 첨삭',
-    description: 'AI가 문서를 분석하고 개선점을 제안해드려요',
+    title: '글쓰기 도우미',
+    description: 'AI가 원하시는 방향으로 글을 다듬어드려요',
   },
   {
     href: '/practice',
@@ -78,7 +78,7 @@ export default function SideBar() {
                       </div>
                       <div>
                         <h2 className='font-medium'>{title}</h2>
-                        <p className='text-sm text-gray-500 mt-0.5'>
+                        <p className='text-xs text-gray-500 mt-0.5'>
                           {description}
                         </p>
                       </div>

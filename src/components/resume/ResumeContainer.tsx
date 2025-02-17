@@ -1,4 +1,3 @@
-'use client';
 import React, { useState } from 'react';
 import ResumeResult from './ResumeResult';
 import ResumeInput from './ResumeInput';
@@ -10,7 +9,7 @@ export default function ResumeContainer() {
     {
       role: 'assistant',
       content:
-        '안녕하세요! 자소서와 이력서 첨삭을 도와드리겠습니다. 첨삭받고 싶으신 문서를 업로드해주세요.',
+        '안녕하세요! 글의 첨삭을 도와드리겠습니다. 첨삭받고 싶으신 문서를 작성하거나 업로드해주세요.',
     },
   ]);
   const [text, setText] = useState('');
@@ -21,12 +20,30 @@ export default function ResumeContainer() {
   const handleSendMessage = () => {
     if (!text.trim()) return;
 
-    setMessages([
-      ...messages,
-      { role: 'user', content: text },
-      { role: 'assistant', content: '문서를 검토 중입니다...' },
+    setMessages((prev) => [
+      ...prev,
+      { role: 'user', content: '글을 제출했습니다.' },
     ]);
+
+    setMessages((prev) => [
+      ...prev,
+      { role: 'assistant', content: '글을 검토 중입니다...' },
+    ]);
+
     setText('');
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setMessages((prev) => [
+        ...prev.filter((msg) => msg.content !== '글을 검토 중입니다...'),
+        {
+          role: 'assistant',
+          content:
+            '첨삭이 완료되었습니다. 오른쪽에서 상세한 피드백을 확인해주세요. 추가적인 질문이나 수정이 필요하시다면 언제든 말씀해주세요.',
+        },
+      ]);
+      setIsLoading(false);
+    }, 2000);
   };
 
   return (
@@ -66,13 +83,8 @@ export default function ResumeContainer() {
             </div>
           </div>
 
+          {/* 결과 섹션 */}
           <div className='bg-white rounded-lg shadow-lg h-full overflow-hidden border border-gray-100'>
-            <div className='p-6 border-b border-gray-100'>
-              <h2 className='text-xl font-bold text-gray-900'>첨삭 결과</h2>
-              <p className='text-sm text-gray-500'>
-                AI가 분석한 개선사항을 확인해보세요
-              </p>
-            </div>
             <div className='h-full'>
               <ResumeResult review={review} isLoading={isLoading} />
             </div>

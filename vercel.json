@@ -2,6 +2,9 @@
   "functions": {
     "src/app/api/interview/*": {
       "maxDuration": 50
+    },
+    "src/app/api/resume/*": {
+      "maxDuration": 50
     }
   }
 }
