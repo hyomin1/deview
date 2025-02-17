@@ -3,7 +3,7 @@ import React, { FormEvent } from 'react';
 
 type Props = {
   text: string;
-  onClick: () => void;
+  handleSendMessage: () => void;
   setText: (text: string) => void;
   instruction: string;
   setInstruction: (instruction: string) => void;
@@ -14,7 +14,7 @@ type Props = {
 
 export default function ResumeInput({
   text,
-  onClick,
+  handleSendMessage,
   setText,
   instruction,
   setInstruction,
@@ -24,11 +24,17 @@ export default function ResumeInput({
 }: Props) {
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!text.trim()) return;
+
     setIsLoading(true);
+    const currentText = text; // 현재 text 값 저장
+
     try {
+      handleSendMessage(); // setText('') 실행됨
+
       const res = await fetch('/api/resume', {
         method: 'POST',
-        body: JSON.stringify({ text, instruction }),
+        body: JSON.stringify({ text: currentText, instruction }), // 저장해둔 text 사용
         headers: {
           'Content-Type': 'application/json',
         },
@@ -57,15 +63,16 @@ export default function ResumeInput({
           <div className='flex gap-2'>
             <textarea
               value={text}
-              onChange={(e) => setText(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && onClick()}
+              onChange={(e) => {
+                setText(e.target.value);
+              }}
+              onKeyPress={(e) => e.key === 'Enter'}
               placeholder='첨삭받고자 하는 글을 적어주세요 (ex: 자소서)'
               className='flex-1 px-4 py-3 bg-gray-50 border resize-none border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200'
             />
 
             <button
               disabled={isLoading}
-              onClick={onClick}
               type='submit'
               className='px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
             >

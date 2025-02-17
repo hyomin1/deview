@@ -21,7 +21,10 @@ export default function ResumeResult({ review, isLoading }: Props) {
   };
 
   return (
-    <div className='bg-white rounded-lg shadow-lg h-full overflow-hidden flex flex-col relative'>
+    <div className='bg-white rounded-lg shadow-lg h-[600px] flex flex-col relative'>
+      {' '}
+      {/* 고정 높이 설정 */}
+      {/* 토스트 부분 */}
       <div
         className={`absolute top-4 right-4 flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-lg shadow-lg transition-opacity duration-200 ${
           showToast ? 'opacity-100' : 'opacity-0 pointer-events-none'
@@ -30,7 +33,7 @@ export default function ResumeResult({ review, isLoading }: Props) {
         <Check size={16} className='text-green-400' />
         <span className='text-sm'>복사되었습니다</span>
       </div>
-
+      {/* 헤더 부분 - 고정 */}
       <div className='p-6 flex-none border-b border-gray-100'>
         <div className='flex justify-between items-center'>
           <div className='flex items-center gap-2'>
@@ -53,8 +56,10 @@ export default function ResumeResult({ review, isLoading }: Props) {
           </button>
         </div>
       </div>
-
-      <div className='flex-1 overflow-auto'>
+      {/* 내용 부분 - 스크롤 가능 */}
+      <div className='flex-1 overflow-y-auto'>
+        {' '}
+        {/* overflow-y-auto로 변경 */}
         <div className='p-6'>
           <div className='bg-emerald-50/50 rounded-lg p-6 leading-relaxed'>
             {isLoading ? (

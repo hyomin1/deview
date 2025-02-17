@@ -55,7 +55,7 @@ export default function ResumeContainer() {
             <div className='border-t border-gray-100'>
               <ResumeInput
                 text={text}
-                onClick={handleSendMessage}
+                handleSendMessage={handleSendMessage}
                 setText={setText}
                 instruction={instruction}
                 setInstruction={setInstruction}
