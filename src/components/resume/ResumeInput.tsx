@@ -27,14 +27,14 @@ export default function ResumeInput({
     if (!text.trim()) return;
 
     setIsLoading(true);
-    const currentText = text; // 현재 text 값 저장
+    const currentText = text;
 
     try {
-      handleSendMessage(); // setText('') 실행됨
+      handleSendMessage();
 
       const res = await fetch('/api/resume', {
         method: 'POST',
-        body: JSON.stringify({ text: currentText, instruction }), // 저장해둔 text 사용
+        body: JSON.stringify({ text: currentText, instruction }),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -66,7 +66,7 @@ export default function ResumeInput({
               onChange={(e) => {
                 setText(e.target.value);
               }}
-              onKeyPress={(e) => e.key === 'Enter'}
+              onKeyDown={(e) => e.key === 'Enter'}
               placeholder='첨삭받고자 하는 글을 적어주세요 (ex: 자소서)'
               className='flex-1 px-4 py-3 bg-gray-50 border resize-none border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200'
             />

@@ -24,7 +24,7 @@ export default function ResumeChat({ messages, isLoading }: Props) {
   }, [messages]);
 
   return (
-    <div className='flex-1 overflow-auto px-6'>
+    <div className='flex-1 overflow-auto p-6'>
       <div className='space-y-4'>
         {messages.map((message, index) => (
           <div
