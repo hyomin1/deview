@@ -1,3 +1,4 @@
+import { exampleAnswer } from '@/app/constants/interview';
 import OpenAI from 'openai';
 
 const openai = new OpenAI({
@@ -19,34 +20,11 @@ export async function generateInterview(keyword: string) {
             "keyword": "검색 키워드",
             "description": "주제에 알아 보자는 문장 형식(1문장) ex: 자바스크립트의 클로저 개념에 대해 알아봅니다.",
             "level": 난이도(1: 초급, 2: 중급, 3: 고급),
-            "tag": "JavaScript", "TypeScript", "React", "NextJS", "CSS", "HTML"중 하나 선택,
-            "category": "frontend", "backend"중 하나 선택,
+            "tag": "JavaScript", "TypeScript", "React", "NextJS", "CSS", "HTML", "Network", "Browser"중 하나 선택,
+            "category": "frontend"중 하나 선택,
             "title": "면접 질문 제목 (명확하고 구체적으로)",
             "question": "실제 면접에서 물어볼 질문 형식으로 작성",
-            "answer": "다음 구조로 상세한 답변을 작성:
-             1. ### 개념 정의 (4-5문장으로 명확히)
-              - 핵심 개념을 굵은 글씨(**bold**)로 강조하여 설명
-              - 4-5개의 완성된 문장으로 구성
-              - 실제 사례나 비유를 통한 이해하기 쉬운 설명 포함
-              - 해당 개념이 중요한 이유와 배경 설명
-             2. ### 동작 원리 (내부 작동 방식 상세 설명)
-              - 내부 작동 방식의 단계별 상세 설명
-              - 다이어그램이나 도식 활용 (가능한 경우)
-              - 각 단계에서 발생하는 프로세스 설명
-              - 실제 동작 시나리오 예시
-             3. ### 주요 특징 (3-4가지 핵심 특징)
-              - 3-4가지 핵심 특징 설명
-              - 각 특징별 장단점 분석
-              - 실무적 중요성 강조
-             4. ### 기본 문법과 사용법 (기초적인 예제 코드 포함)
-              - 기초적인 예제 코드 (주석 포함)
-              - 일반적인 사용 패턴 설명
-              - 기본 구문 설명
-             5. ### 성능 고려사항
-              - 주요 성능 이슈
-              - 최적화 방법
-              - 모니터링 방법
-              모든 내용은 마크다운 형식으로 작성하며, 각 섹션을 명확히 구분할 것",
+            "answer": "다음 예시와 같은 형식으로 작성해주세요: ${exampleAnswer}",
             "practicalUses": [
               "실제 활용 사례 (최소 3개, 최대 5개)",
             ],

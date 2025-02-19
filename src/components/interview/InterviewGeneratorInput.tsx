@@ -2,8 +2,8 @@
 
 import { FormEvent, useState } from 'react';
 import { Search } from 'lucide-react';
-import GridSpinner from '../ui/GridSpinner';
 import useInterviews from '@/hooks/useInterviews';
+import GridSpinner from '../ui/GridSpinner';
 
 type Props = {
   category: string;
@@ -28,25 +28,32 @@ export default function InterviewGeneratorInput({ category }: Props) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className='mt-4 relative'>
-      <div className='relative flex items-center'>
-        <Search className='absolute left-3 text-gray-400 w-5 h-5' />
-        <input
-          placeholder='면접 질문을 생성할 키워드를 입력하세요'
-          type='text'
-          value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
-          className='w-full pl-10 pr-24 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all'
-          disabled={isCreating}
-        />
-        <button
-          type='submit'
-          disabled={isCreating || !keyword.trim()}
-          className='absolute right-2 px-4 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed text-sm font-medium min-w-[80px] h-8 flex items-center justify-center'
-        >
-          {isCreating ? <GridSpinner /> : '생성하기'}
-        </button>
-      </div>
-    </form>
+    <>
+      {isCreating && (
+        <div className='fixed inset-0 bg-white/70 backdrop-blur-sm flex items-center justify-center z-50'>
+          <GridSpinner color='#2563eb' />
+        </div>
+      )}
+      <form onSubmit={handleSubmit} className='mt-4'>
+        <div className='relative flex items-center'>
+          <Search className='absolute left-3 text-gray-400 w-5 h-5' />
+          <input
+            placeholder='면접 질문을 생성할 키워드를 입력하세요'
+            type='text'
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            className='w-full pl-10 pr-24 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all'
+            disabled={isCreating}
+          />
+          <button
+            type='submit'
+            disabled={isCreating || !keyword.trim()}
+            className='absolute right-2 px-4 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed text-sm font-medium min-w-[80px] h-8 flex items-center justify-center'
+          >
+            {isCreating ? '생성중' : '생성하기'}
+          </button>
+        </div>
+      </form>
+    </>
   );
 }
