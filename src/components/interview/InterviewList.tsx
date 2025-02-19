@@ -7,7 +7,7 @@ type Props = {
 
 export default function InterviewList({ interviews }: Props) {
   return (
-    <ul className='grid gap-6'>
+    <ul className='grid md:grid-cols-2 gap-6'>
       {interviews?.map(
         ({ _id: id, keyword, category, description, tag, level }) => (
           <li key={id} className='group'>

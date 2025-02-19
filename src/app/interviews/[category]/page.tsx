@@ -11,9 +11,10 @@ type Props = {
 export default async function InterviewCategoryPage({ params }: Props) {
   const category = (await params).category;
   const isAdmin = await checkIsAdmin();
+
   return (
     <div className='min-h-screen'>
-      <div className='max-w-4xl mx-auto px-6 py-12'>
+      <div className='max-w-7xl mx-auto px-6 py-12'>
         {/* 뒤로가기 */}
         <nav className='mb-12'>
           <Link
